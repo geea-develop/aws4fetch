@@ -2,14 +2,14 @@ import { AwsV4Signer } from '../src/main'
 
 export default async() => {
   fixtures().forEach(({ url, service, region }) => {
-    let signer = new AwsV4Signer({ url, accessKeyId: 'a', secretAccessKey: 'a' })
+    const signer = new AwsV4Signer({ url, accessKeyId: 'a', secretAccessKey: 'a' })
     console.assert(signer.service === service, `Expected service ${service}, got ${signer.service} for url ${url}`)
     console.assert(signer.region === region, `Expected region ${region}, got ${signer.region} for url ${url}`)
   })
 }
 
 function fixtures() {
-  let csv = `
+  const csv = `
 aa-custom-endpoint.execute-api.us-east-1.amazonaws.com,execute-api,us-east-1
 aa-custom-endpoint.iot.us-east-1.amazonaws.com/topics,iotdata,us-east-1
 aa-custom-endpoint.iot.us-east-1.amazonaws.com/things,iotdata,us-east-1
@@ -48,6 +48,7 @@ metering.marketplace.us-east-1.amazonaws.com,aws-marketplace,us-east-1
 mobile.us-east-1.amazonaws.com,AWSMobileHubService,us-east-1
 models.lex.us-east-1.amazonaws.com,lex,us-east-1
 mturk-requester-sandbox.us-east-1.amazonaws.com,mturk-requester,us-east-1
+personalize-runtime.us-west-2.amazonaws.com,personalize,us-west-2
 pinpoint.us-east-1.amazonaws.com,mobiletargeting,us-east-1
 queue.amazonaws.com,sqs,us-east-1
 route53.amazonaws.com,route53,us-east-1
@@ -74,7 +75,7 @@ waf-regional.us-west-2.amazonaws.com,waf-regional,us-west-2
 waf.amazonaws.com,waf,us-east-1
   `
   return csv.trim().split('\n').map(line => {
-    let [url, service, region] = line.split(',')
+    const [url, service, region] = line.split(',')
     return { url: `https://${url}`, service, region }
   })
 }

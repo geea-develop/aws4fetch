@@ -1,8 +1,8 @@
 import { AwsClient } from 'aws4fetch'
 
-// Assume AWS_* vars have been uploaded via the Cloudflare Worker Secrets Vault
-// https://developers.cloudflare.com/workers/api/resource-bindings/secrets-vault/
-const aws = new AwsClient({ accessKeyId: AWS_ACCESS_KEY_ID, secretAccessKey: AWS_SECRET_ACCESS_KEY })
+// Assume AWS_* vars have added to your environment
+// https://developers.cloudflare.com/workers/reference/apis/environment-variables/#secrets
+const aws = new AwsClient({ accessKeyId: AWS_ACCESS_KEY_ID, secretAccessKey: AWS_SECRET_ACCESS_KEY }) // eslint-disable-line no-undef
 
 const LAMBDA_FN = 'my-api-function'
 
@@ -21,12 +21,12 @@ async function handle(event) {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': 'Content-Type,Authorization',
         'Access-Control-Allow-Methods': 'GET,OPTIONS,POST',
-        'Access-Control-Max-Age': 86400,
+        'Access-Control-Max-Age': '86400',
       },
     })
   }
 
-  // https://developers.cloudflare.com/workers/reference/cache-api/
+  // https://developers.cloudflare.com/workers/reference/apis/cache/
   const cache = caches.default
 
   const isCacheable = ['GET', 'HEAD'].includes(method)
